@@ -3,6 +3,7 @@
 
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
 
     <TextView
@@ -25,7 +26,7 @@
         android:layout_margin="5dp"
         android:text="post date"
         android:textAlignment="center"
-        android:textColor="@color/teal_700"
+        android:textColor="#FF6096"
         android:textSize="14sp">
 
     </TextView>
@@ -72,7 +73,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="10dp"
-        android:background="#FF5722">
+        android:background="#00BCD4">
 
     </TextView>
 

@@ -1,5 +1,14 @@
 package com.farasatnovruzov.instagramclone.view;
 
+import android.Manifest;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.os.Bundle;
+import android.provider.MediaStore;
+import android.view.View;
+import android.widget.Toast;
+
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
@@ -9,34 +18,19 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
-import android.Manifest;
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.net.Uri;
-import android.os.Bundle;
-import android.provider.MediaStore;
-import android.view.View;
-import android.widget.Toast;
-
 import com.farasatnovruzov.instagramclone.databinding.ActivityUploadBinding;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.snackbar.Snackbar;
-import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.ServerTimestamp;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.UUID;
@@ -44,6 +38,8 @@ import java.util.UUID;
 
 public class UploadActivity extends AppCompatActivity {
 
+    //    var selectedBitmap : Bitmap? = null
+//    private Bitmap selectedBitmap;
     private FirebaseStorage firebaseStorage;
     private FirebaseFirestore firebaseFirestore;
     private FirebaseAuth auth;
@@ -53,12 +49,12 @@ public class UploadActivity extends AppCompatActivity {
 //    private FirebaseFirestore firebaseFirestore1;
 //    private StorageReference storageReference1;
 
-    Uri imageData;
-    Uri fileData;
-    ActivityResultLauncher<Intent> activityResultLauncher;
-    ActivityResultLauncher<String> permissionLauncher;
-    ActivityResultLauncher<Intent> activityResultLauncher1;
-    ActivityResultLauncher<String> permissionLauncher1;
+    private Uri imageData;
+    private Uri fileData;
+    private ActivityResultLauncher<Intent> activityResultLauncher;
+    private ActivityResultLauncher<String> permissionLauncher;
+    private ActivityResultLauncher<Intent> activityResultLauncher1;
+    private ActivityResultLauncher<String> permissionLauncher1;
     private ActivityUploadBinding binding;
 //    Bitmap selectedImage;
 
@@ -85,13 +81,13 @@ public class UploadActivity extends AppCompatActivity {
     }
 
 
-    public void uploadClicked(View view){
+    public void uploadClicked(View view) {
 
 
-        if(imageData != null){
+        if (imageData != null) {
             //UUID - universal unique id
             UUID uuid = UUID.randomUUID();
-            String imageName = "images/"+uuid;
+            String imageName = "images/" + uuid;
 
             storageReference.child(imageName).putFile(imageData).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
@@ -103,13 +99,11 @@ public class UploadActivity extends AppCompatActivity {
                         public void onSuccess(Uri uri) {
                             String downloadUrl = uri.toString();
                             String postComment = binding.commentText.getText().toString();
-                            if(postComment.isEmpty()){
+                            if (postComment.isEmpty()) {
                                 postComment = "";
                             }
                             FirebaseUser user = auth.getCurrentUser();
                             String email = user.getEmail();
-
-
 
 
                             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
@@ -118,11 +112,10 @@ public class UploadActivity extends AppCompatActivity {
 //                            System.out.println(postDate);
 
 
-
                             HashMap<String, Object> postData = new HashMap<>();
                             postData.put("email", email);
                             postData.put("downloadurl", downloadUrl);
-                            postData.put("comment",postComment);
+                            postData.put("comment", postComment);
                             postData.put("postdate", postDate);
                             firebaseFirestore.collection("Posts").add(postData).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                                 @Override
@@ -153,10 +146,10 @@ public class UploadActivity extends AppCompatActivity {
             });
         }
 
-        if(fileData != null){
+        if (fileData != null) {
             //UUID
             UUID uuid = UUID.randomUUID();
-            String fileName = "files/"+uuid;
+            String fileName = "files/" + uuid;
             storageReference.child(fileName).putFile(fileData).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
@@ -168,7 +161,7 @@ public class UploadActivity extends AppCompatActivity {
 
                             String downloadUrl = uri.toString();
                             String postComment = binding.commentText.getText().toString();
-                            if(postComment.isEmpty()){
+                            if (postComment.isEmpty()) {
                                 postComment = "";
                             }
                             FirebaseUser user = auth.getCurrentUser();
@@ -181,17 +174,17 @@ public class UploadActivity extends AppCompatActivity {
 //                            System.out.println(postDate);
 
 
-                            HashMap<String,Object> postData = new HashMap<>();
+                            HashMap<String, Object> postData = new HashMap<>();
 
-                            postData.put("email",email);
-                            postData.put("downloadurl",downloadUrl);
-                            postData.put("comment",postComment);
-                            postData.put("postdate",postDate);
+                            postData.put("email", email);
+                            postData.put("downloadurl", downloadUrl);
+                            postData.put("comment", postComment);
+                            postData.put("postdate", postDate);
                             firebaseFirestore.collection("Posts").add(postData).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                                 @Override
                                 public void onSuccess(DocumentReference documentReference) {
                                     Toast.makeText(UploadActivity.this, "Post has successfully added", Toast.LENGTH_SHORT).show();
-                                    Intent intent = new Intent(UploadActivity.this,FeedActivity.class);
+                                    Intent intent = new Intent(UploadActivity.this, FeedActivity.class);
                                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                     startActivity(intent);
                                 }
@@ -217,23 +210,22 @@ public class UploadActivity extends AppCompatActivity {
     }
 
 
-
-    public void selectImage(View view){
-        if(ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
-            if(ActivityCompat.shouldShowRequestPermissionRationale(this,Manifest.permission.READ_EXTERNAL_STORAGE)){
-                Snackbar.make(view,"Permission needed for gallery", Snackbar.LENGTH_INDEFINITE).setAction("Give permission", new View.OnClickListener() {
+    public void selectImage(View view) {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                Snackbar.make(view, "Permission needed for gallery", Snackbar.LENGTH_INDEFINITE).setAction("Give permission", new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         //ask permission
                         permissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE);
                     }
                 }).show();
-            }else{
+            } else {
                 //ask permission
                 permissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE);
 
             }
-        }else{
+        } else {
             Intent intentToGallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
             activityResultLauncher.launch(intentToGallery);
 
@@ -241,18 +233,22 @@ public class UploadActivity extends AppCompatActivity {
 
     }
 
-    private void registerLauncherImage(){
+    private void registerLauncherImage() {
         activityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
             @Override
             public void onActivityResult(ActivityResult result) {
-                if(result.getResultCode() == RESULT_OK){
+                if (result.getResultCode() == RESULT_OK) {
                     Intent intentFromResult = result.getData();
-                    if(intentFromResult != null){
+                    if (intentFromResult != null) {
                         imageData = intentFromResult.getData();
+//                        if(imageData == null){
+//                            binding.imageView.setVisibility(View.GONE);
+//                        }
                         //1. way, with uri
                         binding.imageView.setImageURI(imageData);
 
-                        /*
+
+                    /*
                         try{
                             if(Build.VERSION.SDK_INT >= 28){
                                 ImageDecoder.Source source = ImageDecoder.createSource(UploadActivity.this.getContentResolver(),imageData);
@@ -267,8 +263,8 @@ public class UploadActivity extends AppCompatActivity {
                         }catch(Exception e){
                             e.printStackTrace();
                         }
-                        */
 
+                     */
 
 
                     }
@@ -279,11 +275,11 @@ public class UploadActivity extends AppCompatActivity {
         permissionLauncher = registerForActivityResult(new ActivityResultContracts.RequestPermission(), new ActivityResultCallback<Boolean>() {
             @Override
             public void onActivityResult(Boolean result) {
-                if(result){
+                if (result) {
                     Intent intentToGallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 //                    intentToGallery.setType("file/*");
                     activityResultLauncher.launch(intentToGallery);
-                }else{
+                } else {
                     Toast.makeText(UploadActivity.this, "Permission needed", Toast.LENGTH_LONG).show();
                 }
             }
@@ -292,30 +288,24 @@ public class UploadActivity extends AppCompatActivity {
     }
 
 
+    public void pickFile(View view) {
 
 
-
-
-
-    public void pickFile(View view){
-
-
-
-        if(ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
-            if(ActivityCompat.shouldShowRequestPermissionRationale(this,Manifest.permission.READ_EXTERNAL_STORAGE)){
-                Snackbar.make(view,"Permission needed for gallery", Snackbar.LENGTH_INDEFINITE).setAction("Give permission", new View.OnClickListener() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                Snackbar.make(view, "Permission needed for gallery", Snackbar.LENGTH_INDEFINITE).setAction("Give permission", new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         //ask permission
                         permissionLauncher1.launch(Manifest.permission.READ_EXTERNAL_STORAGE);
                     }
                 }).show();
-            }else{
+            } else {
                 //ask permission
                 permissionLauncher1.launch(Manifest.permission.READ_EXTERNAL_STORAGE);
 
             }
-        }else{
+        } else {
             Intent fileIntent = new Intent(Intent.ACTION_GET_CONTENT);
             fileIntent.setType("*/*");
             activityResultLauncher1.launch(fileIntent);
@@ -323,20 +313,20 @@ public class UploadActivity extends AppCompatActivity {
         }
 
 
-
     }
 
 
-    private void registerLauncherFile(){
+    private void registerLauncherFile() {
         activityResultLauncher1 = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
             @Override
             public void onActivityResult(ActivityResult result) {
-                if(result.getResultCode() == RESULT_OK){
+                if (result.getResultCode() == RESULT_OK) {
                     Intent intentFromResult = result.getData();
-                    if(intentFromResult != null){
+                    if (intentFromResult != null) {
                         fileData = intentFromResult.getData();
                         //1. way, with uri
                         binding.fileView.setText(fileData.getPath());
+                        binding.imageView.setVisibility(View.GONE);
 
                         /*
                         try{
@@ -356,7 +346,6 @@ public class UploadActivity extends AppCompatActivity {
                         */
 
 
-
                     }
                 }
             }
@@ -365,11 +354,11 @@ public class UploadActivity extends AppCompatActivity {
         permissionLauncher1 = registerForActivityResult(new ActivityResultContracts.RequestPermission(), new ActivityResultCallback<Boolean>() {
             @Override
             public void onActivityResult(Boolean result) {
-                if(result){
+                if (result) {
                     Intent fileIntent = new Intent(Intent.ACTION_GET_CONTENT);
                     fileIntent.setType("*/*");
                     activityResultLauncher1.launch(fileIntent);
-                }else{
+                } else {
                     Toast.makeText(UploadActivity.this, "Permission needed", Toast.LENGTH_LONG).show();
                 }
             }

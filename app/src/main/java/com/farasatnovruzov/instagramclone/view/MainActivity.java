@@ -1,4 +1,4 @@
-package com.farasatnovruzov.instagramclone;
+package com.farasatnovruzov.instagramclone.view;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -28,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         setContentView(view);
+
 
 //        email = binding.emailText.getText().toString();
 //        password = binding.passwordText.getText().toString();

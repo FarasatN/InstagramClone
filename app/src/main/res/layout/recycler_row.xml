@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/recyclerViewUserEmailText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:text="usermail text"
+        android:textAlignment="center"
+        android:textColor="#9C27B0"
+        android:textSize="20sp">
+
+
+    </TextView>
+
+    <TextView
+        android:id="@+id/recyclerViewDateText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:text="post date"
+        android:textAlignment="center"
+        android:textColor="@color/teal_700"
+        android:textSize="14sp">
+
+    </TextView>
+
+
+    <ImageView
+        android:id="@+id/recyclerViewImageView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="5dp">
+
+
+    </ImageView>
+
+    <TextView
+        android:id="@+id/recyclerViewDownloadText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:autoLink="web"
+        android:linksClickable="true"
+        android:onClick="deletePostClicked"
+        android:text="the item url for download"
+        android:textAlignment="center"
+        android:textColor="@color/teal_200"
+        android:textIsSelectable="true"
+        android:textSize="14sp">
+
+    </TextView>
+
+    <TextView
+        android:id="@+id/recyclerViewCommentText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:text="user comment"
+        android:textAlignment="center"
+        android:textColor="#673AB7"
+        android:textSize="18sp">
+
+    </TextView>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="#FF5722">
+
+    </TextView>
+
+
+</LinearLayout>

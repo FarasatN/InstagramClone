@@ -4,17 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".UploadActivity">
+    tools:context=".view.UploadActivity">
 
     <TextView
-        android:id="@+id/selectImage"
+        android:id="@+id/textImageView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="50dp"
-        android:layout_marginTop="120dp"
+        android:layout_marginTop="70dp"
         android:layout_marginEnd="50dp"
         android:background="#FFEB3B"
-        android:onClick="selectImage"
         android:text="Select Image"
         android:textAlignment="center"
         android:textAllCaps="true"
@@ -24,21 +23,21 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/selectMedia"
+        android:id="@+id/fileView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="50dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="24dp"
         android:layout_marginEnd="50dp"
-        android:background="#FFEB3B"
-        android:onClick="selectMedia"
-        android:text="select media"
+        android:background="#FFFFFF"
+        android:hint="File Path"
         android:textAlignment="center"
         android:textAllCaps="true"
-        android:textSize="20sp"
+        android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/selectImage" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
     <TextView
         android:id="@+id/textView4"
@@ -59,17 +58,17 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="50dp"
         android:layout_marginEnd="32dp"
+        android:layout_marginBottom="32dp"
         android:ems="10"
-        android:gravity="start|top"
+        android:gravity="top|start"
         android:hint="Enter Comment"
         android:inputType="textMultiLine"
-        android:textAlignment="center"
         android:textStyle="italic"
+        app:layout_constraintBottom_toTopOf="@+id/uploadButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/selectMedia" />
+        app:layout_constraintTop_toBottomOf="@+id/pickFile" />
 
     <Button
         android:id="@+id/uploadButton"
@@ -81,5 +80,32 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/commentText" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="0dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginEnd="50dp"
+        android:onClick="selectImage"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.367"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textImageView"
+        app:srcCompat="@android:drawable/ic_menu_gallery" />
+
+    <Button
+        android:id="@+id/pickFile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="32dp"
+        android:onClick="pickFile"
+        android:text="pick file"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toTopOf="@+id/commentText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fileView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
